@@ -1,0 +1,51 @@
+---
+# tasks file for gradle
+- name: Ensure destination directory exists.
+  file:
+    path: "{{ gradle_install_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Check if Gradle is already installed.
+  stat: 
+    path: "{{ gradle_install_dir }}/gradle-{{ gradle_version }}"
+  register: gradle_dir
+
+- name: Download Gradle binary.
+  get_url:
+    url: https://services.gradle.org/distributions/gradle-{{ gradle_version }}-bin.zip
+    dest: "{{ gradle_install_dir }}"
+  when: gradle_dir.stat.exists == False
+
+- name: Unpack Gradle binary.
+  unarchive:
+    src: "{{ gradle_install_dir }}/gradle-{{ gradle_version }}-bin.zip"
+    dest: "{{ gradle_install_dir }}"
+    remote_src: yes
+  when: gradle_dir.stat.exists == False
+
+- name: Ensure that the compressed binary isn't left behind.
+  file:
+    path: "{{ gradle_install_dir }}/gradle-{{ gradle_version }}-bin.zip"
+    state: absent
+
+- name: Ensure there's a file for environment configuration.
+  file:
+    path: /etc/profile.d/gradle.sh
+    owner: root
+    group: root
+    mode: 0644
+    state: touch
+
+- name: Set GRADLE_HOME.
+  lineinfile:
+    path: /etc/profile.d/gradle.sh
+    regexp: '^export GRADLE_HOME'
+    line: 'export GRADLE_HOME={{ gradle_install_dir }}/gradle-{{ gradle_version }}'
+
+- name: Update PATH.
+  lineinfile:
+    path: /etc/profile.d/gradle.sh
+    regexp: '^export PATH'
+    line: 'export PATH=$PATH:$GRADLE_HOME/bin'
+    insertafter: '^export GRADLE_HOME'
