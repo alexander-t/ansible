@@ -16,3 +16,7 @@
     regexp: ^XKBLAYOUT 
     line: XKBLAYOUT="se"
 
+- name: Set timezone.
+  timezone:
+    name: Europe/Stockholm
+
