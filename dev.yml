@@ -1,0 +1,7 @@
+---
+- hosts: dev
+  roles:
+    - pi
+    - geerlingguy.java
+    - gradle
+  become: true
