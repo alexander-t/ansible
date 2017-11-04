@@ -3,3 +3,15 @@ cluster0
 cluster1
 cluster2
 cluster3
+
+[dev]
+cluster0
+
+[ci]
+cluster1
+
+[docker]
+cluster2
+
+[db]
+cluster3
