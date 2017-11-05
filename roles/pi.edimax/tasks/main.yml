@@ -1,0 +1,35 @@
+---
+- name: Ensure that latest version of wpasupplicant is installed.
+  apt: 
+    name: wpasupplicant
+    state: latest
+    update_cache: yes
+
+- name: Create wlan interface config file.
+  template:
+    src: wlan.j2
+    dest: /etc/network/interfaces.d/{{ edimax_interface }}
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Create WPA configuration file.
+  template:
+    src: wpa_supplicant.conf.j2
+    dest: /etc/wpa_supplicant/wpa_supplicant.conf
+    owner: root
+    group: root
+    mode: 0600
+  notify: Restart networking
+
+- name: Turn off power saving.
+  template:
+    src: 8192cu.conf.j2
+    dest: /etc/modprobe.d/8192cu.conf 
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Remind about rebooting
+  debug:
+    msg: "The above operations may require a reboot."

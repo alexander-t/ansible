@@ -1,0 +1,4 @@
+---
+edimax_interface: wlan0
+edimax_ssid: public
+edimax_psk: secret
