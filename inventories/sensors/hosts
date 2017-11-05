@@ -1,3 +1,6 @@
+[sensors]
+sensor2
+
 [sensors_eth0]
 sensor2eth0
 
