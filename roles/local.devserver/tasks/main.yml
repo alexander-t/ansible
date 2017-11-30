@@ -7,9 +7,11 @@
       - php
       - php-mysql
       - libapache2-mod-php
-      - emacs-nox 
+      - emacs-nox
+      - php-elisp 
       - libmysqlclient-dev
       - python3-pip
+      - unzip
     state: latest
   notify: Restart Apache
 
@@ -20,3 +22,7 @@
   pip:
     name: mysqlclient
     state: present
+
+- name: Enable mod_rewrite
+  command: a2enmod rewrite
+  notify: Restart Apache
