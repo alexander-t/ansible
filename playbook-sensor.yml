@@ -1,6 +1,7 @@
 ---
 - hosts: sensors
   roles:
-    - pi
-    - pi.edimax
+#    - pi
+#    - pi.edimax
+    - pi.tellstick
   become: true

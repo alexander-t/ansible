@@ -1,0 +1,22 @@
+---
+# tasks file for local.devserver
+- name: Add dependencies.
+  apt:
+    name:
+      - apache2
+      - php
+      - php-mysql
+      - libapache2-mod-php
+      - emacs-nox 
+      - libmysqlclient-dev
+      - python3-pip
+    state: latest
+  notify: Restart Apache
+
+- name: Autoupgrade pip.
+  shell: 'pip3 install --upgrade pip'
+
+- name: Add Python dependencies.
+  pip:
+    name: mysqlclient
+    state: present

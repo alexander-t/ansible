@@ -1,0 +1,14 @@
+---
+# tasks file for local.update
+
+- name: "apt-get upgrade dist"
+  apt:
+    autoremove: yes
+    autoclean: yes
+    update-cache: yes
+    upgrade: dist
+
+- name: "apt-get autoremove --purge"
+  apt:
+    autoremove: yes
+    purge: yes
