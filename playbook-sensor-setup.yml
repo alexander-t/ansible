@@ -1,0 +1,6 @@
+---
+- hosts: sensors_eth
+  roles:
+    - pi
+    - pi.edimax
+  become: true
