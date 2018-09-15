@@ -20,3 +20,15 @@
   timezone:
     name: Europe/Stockholm
 
+- name: Install packages.
+  apt:
+    name: ntpdate
+    state: present
+    update_cache: yes
+
+- name: Create ntpdate cron job.
+  cron:
+    name: Keep time synchronized
+    day: "*/2"
+    user: root
+    job: "ntpdate 0.pool.ntp.org"
