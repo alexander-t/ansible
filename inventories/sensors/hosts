@@ -1,5 +1,5 @@
 [sensors]
-sensor2
+sensor2 controller_serial=A703AFRK
 
 [sensors_eth]
 sensor2eth
