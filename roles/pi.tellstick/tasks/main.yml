@@ -1,0 +1,36 @@
+---
+- name: Ensure dependencies are present.
+  apt:
+    pkg: "{{ item }}" 
+    state: present
+  with_items:
+    - build-essential
+    - cmake 
+    - libconfuse-dev 
+    - libftdi-dev
+    - help2man
+
+- name: Unpack gzipped telldus-core tarball to /tmp.
+  unarchive:
+    src: "{{ role_path }}/files/telldus-core.tar.gz"
+    dest: /tmp
+
+- name: Build telldus-core (1/2) Run CMake,
+  command: cmake -DFORCE_COMPILE_FROM_TRUNK=1
+  args:
+    chdir: /tmp/telldus-core
+
+- name: Build telldus-core (2/2) Run make.
+  make:
+    chdir: /tmp/telldus-core
+    target: install
+ 
+- name: Run ldconfig.
+  command: ldconfig
+
+- name: Create Tellstick config file.
+  template:
+    src: tellstick.j2
+    dest: /etc/tellstick.conf
+    owner: root  
+ 
